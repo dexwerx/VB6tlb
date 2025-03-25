@@ -1,0 +1,23 @@
+/* Copyright © 2016 Dexter Freivald. All Rights Reserved. DEXWERX.COM
+*
+* VBXCore.idl
+*
+* VBWERX Core Language Extensions
+*	- 64Bit LongLong type as an alias to Currency
+*	- LongPtr type as an alias to Long
+*	- Access to Array Pointers via VarPtrArray/ArrPtr/ArrRef
+*	- Standardized Subclassing Interface and related APIs
+*	- Typed Memory Access adapted from Michel Rutten's VBVM6Lib
+*	- Read/Write Reference Pointers to VB's Reference Types via StrRef()/ArrRef()/ObjRef()
+*	- Cast a pointer back to a String/Object via PtrStr()/PtrObj()
+*	- NOTE: A Typelib'd SAFEARRAY(void)* sidesteps VBs Unicode/ANSI Conversion in MIDL
+*	- TODO: Add Multithreading APIs
+**/
+[	helpstring("VBWERX Core Language Extensions"),
+	uuid(2BDBA0AF-7F8D-4118-B127-C6061068BCBF),
+	lcid(0x00000000),
+	version(2.1)
+]
+library Shell {
+	importlib("stdole2.tlb");			// stdole.IUnknown,IDispatch has hidden attribute set
+}

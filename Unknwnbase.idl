@@ -1,0 +1,49 @@
+import "wtypesbase.idl";
+
+[
+  local,
+  object,
+  uuid(00000000-0000-0000-C000-000000000046),
+  pointer_default(unique),
+  hidden,
+  restricted // VB6
+]
+
+interface IUnknown
+{
+    typedef [unique] IUnknown *LPUNKNOWN;
+
+	HRESULT QueryInterface([in] REFIID riid, [out,retval] void **ppvObject);
+	ULONG AddRef();
+    ULONG Release();
+}
+
+[
+  object,
+  uuid(000e0000-0000-0000-C000-000000000046),
+]
+
+interface AsyncIUnknown : IUnknown
+{
+    HRESULT Begin_QueryInterface([in] REFIID riid);
+    //HRESULT Finish_QueryInterface([out, annotation("__RPC__deref_out")] void **ppvObject);
+    HRESULT Finish_QueryInterface([out] void **ppvObject);
+    HRESULT Begin_AddRef();
+    long   Finish_AddRef();
+    HRESULT Begin_Release();
+    long   Finish_Release();
+}
+
+
+
+[
+    object,
+    uuid(00000001-0000-0000-C000-000000000046),
+]
+
+interface IClassFactory : IUnknown {
+    typedef [unique] IClassFactory * LPCLASSFACTORY;
+    HRESULT CreateInstance( [in] IUnknown * pUnkOuter, [in] REFIID riid, [out] void **ppvObject);
+	HRESULT LockServer([in] BOOL fLock);
+}
+

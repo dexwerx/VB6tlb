@@ -1,0 +1,169 @@
+[
+uuid(ea4849c3-e8e6-41e5-833a-affd3f6a109d),
+version(1.0),
+helpstring("Portable Device API for VB6 ")
+]
+library WPD
+{
+	importlib("stdole2.tlb");
+	
+	///////////////////////////////////////////////////////////
+	// IPortableDeviceKeyCollection
+	//---------------------------------------------------------
+	//---------------------------------------------------------
+	//
+	[
+	   object,
+	   uuid(dada2357-e0ad-492e-98db-dd61c53ba353),
+	   helpstring("IPortableDeviceKeyCollection Interface"),
+	   pointer_default(unique)
+	]
+	interface IPortableDeviceKeyCollection : IUnknown
+	{
+	   HRESULT GetCount(
+		  [out,retval] long* pcElems);
+
+	   HRESULT GetAt(
+		  [in] long dwIndex,
+		  [in] void* pKey);
+
+	   HRESULT Add(
+		  [in] void *Key);
+
+	   HRESULT Clear();
+
+	   HRESULT RemoveAt(
+		  [in] long dwIndex);
+	};
+	[
+		uuid(de2d022d-2480-43be-97f0-d1fa2cf98f4f),
+		helpstring("Portable Device PROPERTYKEY collection")
+	]
+	coclass PortableDeviceKeyCollection
+	{
+		[default] interface IPortableDeviceKeyCollection;
+	};	
+
+	//---------------------------------------------------------
+	// This interface is used to enumerate available portable
+	// devices.
+	//---------------------------------------------------------
+	[
+		object,
+		uuid(a1567595-4c2f-4574-a6fa-ecef917b9a40),
+		helpstring("IPortableDeviceManager Interface"),
+		pointer_default(unique)
+	]
+	interface IPortableDeviceManager : IUnknown
+	{
+		long GetDevices(
+			[in] long   pPnPDeviceIDs,
+			[in] long*  pcPnPDeviceIDs);
+
+		long RefreshDeviceList();
+
+		long GetDeviceFriendlyName(
+			[in] LPWSTR pszPnPDeviceID,
+			[in] long   pDeviceFriendlyName,
+			[in] long*  pcchDeviceFriendlyName);
+
+		long GetDeviceDescription(
+			[in] LPWSTR pszPnPDeviceID,
+			[in] long   pDeviceDescription,
+			[in] long*  pcchDeviceDescription);
+
+		long GetDeviceManufacturer(
+			[in] LPWSTR pszPnPDeviceID,
+			[in] long   pDeviceManufacturer,
+			[in] long*  pcchDeviceManufacturer);
+
+		long GetDeviceProperty(
+			[in] LPWSTR pszPnPDeviceID,
+			[in] LPWSTR pszDevicePropertyName,
+			[in] long   pData,
+			[in] long*  pcbData,
+			[in] long*  pdwType);
+
+		long GetPrivateDevices(
+			[in] long   pPnPDeviceIDs,
+			[in] long*  pcPnPDeviceIDs);
+	};
+
+    [
+        uuid(0af10cec-2ecd-4b92-9581-34f6ae0637f3),
+        helpstring("PortableDeviceManager Class")
+    ]
+    coclass PortableDeviceManager
+    {
+        [default] interface IPortableDeviceManager;
+    };
+	
+	//---------------------------------------------------------
+	// Clients use this interface for instantiating an 
+	// IDispatch interface representing the device object.
+	// This is used to access the Portable Device Automation
+	// component from DXP.
+	// This interface is locked down as local-only.  
+	// Marshaling is not supported.
+	//---------------------------------------------------------
+	[
+		object,
+		local,
+		uuid(5e1eafc3-e3d7-4132-96fa-759c0f9d1e0f),
+	]
+	interface IPortableDeviceDispatchFactory : IUnknown
+	{
+		long GetDeviceDispatch(
+		   [in]  LPWSTR        pszPnPDeviceID,
+		   [out] IDispatch**    ppDeviceDispatch);
+	};
+	
+	    [
+        uuid(43232233-8338-4658-ae01-0b4ae830b6b0),
+        helpstring("PortableDeviceDispatchFactory Class")
+    ]
+    coclass PortableDeviceDispatchFactory
+    {
+        [default] interface IPortableDeviceDispatchFactory;
+    };
+	
+	//---------------------------------------------------------
+	// Clients use this interface to work with properties.
+	// Supports property enumeration, attributes, reading
+	// and writing.
+	//---------------------------------------------------------
+	[
+		object,
+		uuid(7f6d695c-03df-4439-a809-59266beee3a6),
+		helpstring("IPortableDeviceProperties Interface"),
+		pointer_default(unique)
+	]
+	interface IPortableDeviceProperties : IUnknown
+	{
+		HRESULT GetSupportedProperties(
+			[in]  LPCWSTR                        pszObjectID,
+			[out] IPortableDeviceKeyCollection** ppKeys);
+
+		HRESULT GetPropertyAttributes(
+			[in]  LPCWSTR                  pszObjectID,
+			[in]  REFPROPERTYKEY           Key,
+			[out] IPortableDeviceValues**  ppAttributes);
+
+		HRESULT GetValues(
+			[in]         LPCWSTR                       pszObjectID,
+			[in, unique] IPortableDeviceKeyCollection* pKeys,
+			[out]        IPortableDeviceValues**       ppValues);
+
+		HRESULT SetValues(
+			[in]  LPCWSTR                   pszObjectID,
+			[in]  IPortableDeviceValues*    pValues,
+			[out] IPortableDeviceValues**   ppResults);
+
+		HRESULT Delete(
+			[in]    LPCWSTR                       pszObjectID,
+			[in]    IPortableDeviceKeyCollection* pKeys);
+
+		HRESULT Cancel();
+	};	
+
+}
