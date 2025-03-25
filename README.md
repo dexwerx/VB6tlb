@@ -1,4 +1,8 @@
 This typelib is is compiled using midl, and requires a Windows SDK environment to build.
+The Microsoft idl files have been modified to be compatible with VB6.
+
+These files are provided as-is from a backup I haven't touched in any years. Good luck!
+
 ```
 /* Copyright © 2017 Dexter Freivald. All Rights Reserved. DEXWERX.COM
 *
