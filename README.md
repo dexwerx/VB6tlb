@@ -1,3 +1,5 @@
+This typelib is is compiled using midl, and requires a Windows SDK environment to build.
+```
 /* Copyright © 2017 Dexter Freivald. All Rights Reserved. DEXWERX.COM
 *
 * VB6.idl
@@ -21,5 +23,5 @@
 *	- NOTE: A Typelib'd SAFEARRAY(void)* sidesteps VBs Unicode/ANSI Conversion in MIDL
 *	- TODO: Add User Control Interfaces? or keep in OLE
 **/
+```
 
-This typelib is built using MIDL, and requires a Windows SDK environment to build.
